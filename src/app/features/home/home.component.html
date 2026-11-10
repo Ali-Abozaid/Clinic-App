@@ -1,0 +1,141 @@
+<section class="hero">
+  @for (slide of content.slides; track slide.title; let index = $index) {
+    <article class="hero__slide" [class.is-active]="slideIndex() === index" [style.background-image]="'url(' + slide.image + ')'">
+      <div class="hero__overlay"></div>
+      <div class="container hero__copy">
+        <h1>{{ slide.title }}</h1>
+        <p>{{ slide.text }}</p>
+        <button class="btn btn-primary" type="button" (click)="ui.openAppointment()">Termin vereinbaren</button>
+      </div>
+    </article>
+  }
+  <div class="hero__dots" aria-hidden="true">
+    @for (slide of content.slides; track slide.title; let index = $index) {
+      <button type="button" [class.is-active]="slideIndex() === index" (click)="slideIndex.set(index)"></button>
+    }
+  </div>
+</section>
+
+<section class="intro">
+  <div class="container intro__grid">
+    <article class="intro__emergency">
+      <h2>Notfall</h2>
+      <p>Bei akuten Schmerzen erreichen Sie die Praxis während der Öffnungszeiten direkt.</p>
+      <a [href]="content.clinic.phoneHref">{{ content.clinic.phoneDisplay }}</a>
+    </article>
+    <article class="intro__hours">
+      <h2>Öffnungszeiten</h2>
+      @for (row of content.clinic.openingHours; track row.days) {
+        <p><span>{{ row.days }}</span><span>{{ row.hours }}</span></p>
+      }
+    </article>
+    <article class="intro__form">
+      <h2>Termin anfragen</h2>
+      <app-appointment-form />
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-heading">
+      <h2>Leistungen, die das Lächeln halten</h2>
+      <p>Vorsorge, Ästhetik und Zahnersatz aus einer Praxis – mit einem Plan, den Sie mitnehmen können.</p>
+    </header>
+    <div class="card-grid card-grid--4">
+      @for (service of content.featuredServices(); track service.id) {
+        <app-service-card [service]="service" />
+      }
+    </div>
+    <p class="section__more"><a class="btn btn-outline" routerLink="/leistungen">Alle Leistungen</a></p>
+  </div>
+</section>
+
+<section class="split">
+  <div class="split__photo" style="background-image: url('images/about-2.jpg')"></div>
+  <div class="split__copy">
+    <h2>Helia Zahn mit persönlicher Betreuung</h2>
+    <p>Eine Praxis in der Kölner Innenstadt, in der Sie dieselben Gesichter wiedersehen und nicht bei jedem Termin neu erzählen müssen.</p>
+    @for (item of content.highlights; track item.title) {
+      <article>
+        <span><app-icon name="check" /></span>
+        <div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.text }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-heading">
+      <h2>Das Ärzteteam</h2>
+      <p>Vier feste Ansprechpartner für Vorsorge, Ästhetik, Implantate und Zahnspangen.</p>
+    </header>
+    <div class="card-grid card-grid--4">
+      @for (doctor of content.doctors; track doctor.slug) {
+        <app-doctor-card [doctor]="doctor" />
+      }
+    </div>
+  </div>
+</section>
+
+<app-stats-band />
+
+<section class="section section--steps">
+  <div class="container">
+    <header class="section-heading">
+      <h2>So läuft der erste Besuch</h2>
+      <p>Drei Schritte, kein Paketpreis. Den Betrag nennen wir nach dem Befund.</p>
+    </header>
+    <div class="steps">
+      @for (step of content.visitSteps; track step.step) {
+        <article>
+          <span>{{ step.step }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<app-testimonial-slider />
+
+<section class="section">
+  <div class="container">
+    <header class="section-heading">
+      <h2>Aktuelles aus dem Blog</h2>
+      <p>Kurze Texte aus dem Alltag der Praxis – zum Lesen, nicht als medizinische Ferndiagnose.</p>
+    </header>
+    <div class="card-grid card-grid--3">
+      @for (post of content.latestPosts(); track post.slug) {
+        <article class="blog-card">
+          <a [routerLink]="['/blog', post.slug]">
+            <img [src]="post.image" [alt]="post.title" />
+          </a>
+          <div>
+            <p class="meta">{{ post.date }} · {{ post.author }}</p>
+            <h3><a [routerLink]="['/blog', post.slug]">{{ post.title }}</a></h3>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="care-note">
+  <div class="container care-note__grid">
+    <div>
+      <h2>Für wen die Praxis da ist</h2>
+      <p>Gesetzlich und privat Versicherte, Familien und Menschen, die lange nicht beim Zahnarzt waren.</p>
+    </div>
+    <ul>
+      @for (point of content.procedurePoints; track point) {
+        <li><app-icon name="check" /> {{ point }}</li>
+      }
+    </ul>
+  </div>
+</section>
